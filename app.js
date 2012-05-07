@@ -7,7 +7,7 @@ var flatiron = require('flatiron'),
 	Schema = mongoose.Schema,
 	ObjectId = Schema.ObjectId;
 
-mongoose.connect('mongodb://localhost/lunch');
+mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/lunch');
 
 var Vote = new Schema({
 	created: {
