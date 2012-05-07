@@ -2,7 +2,8 @@ define [
   'controllers/Controller'
   'views/AppView'
   'controllers/PlacesController'
-], (Controller, AppView, PlacesController) ->
+  'use!ui'
+], (Controller, AppView, PlacesController, ui) ->
   class AppController extends Controller
 
     className: 'app-container'
@@ -16,4 +17,7 @@ define [
       @append @placesController
 
     findLocation: ->
-      alert @placesController.findLocation().get('name')
+      ui.dialog(@placesController.findLocation().get('name'))
+        .closable()
+        .overlay()
+        .show()

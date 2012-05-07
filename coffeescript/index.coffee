@@ -7,6 +7,7 @@ require.config
     'moment' : 'vendor/moment'
     'text': 'vendor/require.text'
     'i18n': 'vendor/i18n'
+    'ui' : 'vendor/ui'
     'use': 'vendor/use'
   use:
     'underscore':
@@ -22,6 +23,9 @@ require.config
 
     'handlebars':
       attach: 'Handlebars'
+
+    'ui':
+      attach: 'ui'
 
 require ['jquery', 'controllers/AppController'], ($, AppController) ->
   $(document.body).append(new AppController().render().el)

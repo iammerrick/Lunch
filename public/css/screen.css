@@ -223,3 +223,161 @@ body {
   color: #FFF;
   font-weight: bold;
 }
+
+/* UI Kit */
+/* line 100, ../../sass/screen.scss */
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  -webkit-transition: opacity 300ms;
+  z-index: 500;
+}
+
+/* line 112, ../../sass/screen.scss */
+#overlay.hide {
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* line 115, ../../sass/screen.scss */
+#dialog {
+  position: fixed;
+  left: 50%;
+  top: 150px;
+  max-width: 600px;
+  min-width: 250px;
+  border: 1px solid #eee;
+  border-bottom-color: #cacaca;
+  -webkit-border-radius: 3px;
+  -webkit-box-shadow: 0 1px 4px 0 #ddd;
+  background: white;
+  z-index: 1000;
+  color: #111315;
+}
+
+/* line 130, ../../sass/screen.scss */
+#dialog .content {
+  padding: 15px 20px;
+}
+
+/* line 134, ../../sass/screen.scss */
+#dialog h1 {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+/* line 140, ../../sass/screen.scss */
+#dialog p {
+  margin: 0;
+  padding: 0;
+  font-size: .9em;
+}
+
+/* line 146, ../../sass/screen.scss */
+#dialog .actions button {
+  padding: 5px;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+/* line 154, ../../sass/screen.scss */
+#dialog .actions button:hover {
+  text-decoration: underline;
+}
+
+/* line 158, ../../sass/screen.scss */
+#dialog .actions button.main {
+  padding: 5px 15px;
+  background: -webkit-linear-gradient(top, white 20%, #eeeeee);
+  border: 1px solid #eee;
+  border-bottom-color: #cacaca;
+  -webkit-border-radius: 3px;
+  outline: none;
+}
+
+/* line 167, ../../sass/screen.scss */
+#dialog .actions button.main:hover {
+  text-decoration: none;
+  background: -webkit-linear-gradient(top, white 50%, #eeeeee);
+}
+
+/* line 172, ../../sass/screen.scss */
+#dialog .actions button.main:active {
+  background: -webkit-linear-gradient(bottom, white 20%, #eeeeee);
+}
+
+/* line 176, ../../sass/screen.scss */
+#dialog.modal {
+  -webkit-box-shadow: 0 1px 8px 0 black;
+}
+
+/* close */
+/* line 182, ../../sass/screen.scss */
+#dialog .close {
+  position: absolute;
+  top: 3px;
+  right: 10px;
+  text-decoration: none;
+  color: #888;
+  font-size: 16px;
+  font-weight: bold;
+  display: none;
+}
+
+/* line 193, ../../sass/screen.scss */
+#dialog.closable .close {
+  display: block;
+}
+
+/* line 197, ../../sass/screen.scss */
+#dialog .close:hover {
+  color: black;
+}
+
+/* line 201, ../../sass/screen.scss */
+#dialog .close:active {
+  margin-top: 1px;
+}
+
+/* slide */
+/* line 207, ../../sass/screen.scss */
+#dialog.slide {
+  -webkit-transition: opacity 300ms, top 300ms;
+}
+
+/* line 211, ../../sass/screen.scss */
+#dialog.slide.hide {
+  opacity: 0;
+  top: -500px;
+}
+
+/* fade */
+/* line 218, ../../sass/screen.scss */
+#dialog.fade {
+  -webkit-transition: opacity 300ms;
+}
+
+/* line 222, ../../sass/screen.scss */
+#dialog.fade.hide {
+  opacity: 0;
+}
+
+/* scale */
+/* line 228, ../../sass/screen.scss */
+#dialog.scale {
+  -webkit-transition: -webkit-transform 300ms;
+  -webkit-transform: scale(1);
+}
+
+/* line 233, ../../sass/screen.scss */
+#dialog.scale.hide {
+  -webkit-transform: scale(0);
+}
