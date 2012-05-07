@@ -1,7 +1,3 @@
 node_modules
 .DS_Store
-build
-public/css/*
 .sass-cache
-/public/javascript/*
-!/public/javascript/vendor
