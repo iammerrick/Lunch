@@ -97,5 +97,5 @@ app.router.get('/places/vote/:id', function(id){
 	});
 });
 
-app.start(3000);
+app.start(process.env.PORT || 3000);
 
