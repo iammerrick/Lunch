@@ -14,6 +14,7 @@ define ['collections/Collection', 'models/Place', 'moment'], (Collection, Place,
 
       for key, place of @models
         votes = place.get place.votesKey
-        selectionPool.push(place.id) for i in [0..votes]
+        if votes > 0
+          selectionPool.push(place.id) for i in [1..votes]
 
       @get selectionPool[Math.floor Math.random() * selectionPool.length]

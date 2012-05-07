@@ -31,8 +31,10 @@
         for (key in _ref) {
           place = _ref[key];
           votes = place.get(place.votesKey);
-          for (i = _i = 0; 0 <= votes ? _i <= votes : _i >= votes; i = 0 <= votes ? ++_i : --_i) {
-            selectionPool.push(place.id);
+          if (votes > 0) {
+            for (i = _i = 1; 1 <= votes ? _i <= votes : _i >= votes; i = 1 <= votes ? ++_i : --_i) {
+              selectionPool.push(place.id);
+            }
           }
         }
         return this.get(selectionPool[Math.floor(Math.random() * selectionPool.length)]);
