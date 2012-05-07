@@ -4,6 +4,7 @@ require.config
     'backbone': 'vendor/backbone'
     'underscore': 'vendor/underscore'
     'handlebars': 'vendor/handlebars-1.0.0.beta.6'
+    'moment' : 'vendor/moment'
     'text': 'vendor/require.text'
     'i18n': 'vendor/i18n'
     'use': 'vendor/use'
@@ -22,6 +23,6 @@ require.config
     'handlebars':
       attach: 'Handlebars'
 
-require ['jquery', 'controllers/app'], ($, App) ->
-  new App({el : document.body}).render()
+require ['jquery', 'controllers/AppController'], ($, AppController) ->
+  $(document.body).append(new AppController().render().el)
 

@@ -24,7 +24,7 @@ define ['use!backbone'], ({View}) ->
     from a view or just returns the element if one is passed.
     ###
     getElement: (el) ->
-      el.render?().el or el
+      el?.el or el
 
     ###
     Takes the elements property if available and sets shortcuts

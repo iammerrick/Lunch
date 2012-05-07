@@ -1,0 +1,16 @@
+{
+  "description": "A Flatiron HTTP application",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "union": "0.1.7",
+    "flatiron": "0.1.16",
+	"ecstatic": "0.1.6",
+	"moment" : "1.6.2",
+	"mongoose" : "2.6.3"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "name": "lunch"
+}

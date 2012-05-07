@@ -1,6 +1,6 @@
-define ['i18n!messages/nls/greetings'], (greetings) ->
+define ['i18n!messages/nls/messages'], (messages) ->
   dictionary =
-    greetings: greetings
+    messages: messages
 
   find:
     (key) ->
