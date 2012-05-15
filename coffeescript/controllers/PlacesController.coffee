@@ -14,9 +14,9 @@ define [
       'click .vote' : 'vote'
 
     initialize: ->
-      @model.on 'change:'+@model.votesKey, @render, this
+      @model.on "change:#{@model.votesKey}", @render
 
-    render: () ->
+    render: =>
       @html PlaceItemView @model.toJSON()
       this
 
@@ -29,21 +29,18 @@ define [
 
     tagName: 'ul'
 
-    initialize: () ->
+    initialize: ->
       @collection = new PlacesCollection
       @collection.on 'reset', @render, this
       @collection.fetch()
 
-    render: () ->
+    render: ->
       @append '<h2>What are my options?</h2>'
-      @collection.each (place) ->
-        @append new PlaceItemController(
-          model: place
-        ).render()
-      , this
+      @collection.each (place) =>
+        @append new PlaceItemController(model: place).render()
       this
 
-    findLocation: () ->
-      throw "No collection!" if ! @collection
+    findLocation: ->
+      throw "No collection!" unless @collection
 
       @collection.select()
