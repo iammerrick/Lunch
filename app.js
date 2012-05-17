@@ -1,33 +1,13 @@
 var flatiron = require('flatiron'),
 	ecstatic = require('ecstatic'),
-	mongoose = require('mongoose'),
 	crypto = require('crypto'),
 	moment = require('moment'),
-    app = flatiron.app,
-	Schema = mongoose.Schema,
-	ObjectId = Schema.ObjectId;
+	_ = require('underscore'),
+	Database = require('./lib/db'),
+    app = flatiron.app;
 
-mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/lunch');
-
-var Vote = new Schema({
-	created: {
-		type: Date,
-		"default": Date.now
-	}
-});
-
-var Place = mongoose.model('Place', new Schema({
-	name: String,
-	votes: [Vote]
-}));
-
-var Hit = mongoose.model('Hit', new Schema({
-	who: String,
-	created: {
-		type: Date,
-		"default" : Date.now
-	}
-}));
+var db = new Database('./db/default.db');
+db.load();
 
 var identify = function(req, res, next){	
 	var address = res.response.connection.address().address,
@@ -43,21 +23,18 @@ var identify = function(req, res, next){
 
 var voteLimit = function(req, res, next) {
 	var limit = 3;
-	if(~req.url.indexOf('vote')){
-		Hit.find({ who: req.identity}, function(err, hits){
-			if(hits.length <= limit - 1){
-				var hit = new Hit({
-					who: req.identity
-				});
-				
-				hit.save(function(err){
-					next();
-				});
-			} else {
-				res.json(500, {
-					error: 'Hit request limit.'
-				});
-			}
+	if(! ~req.url.indexOf('veto')) return next();
+
+
+	var vetoes = _.reduce(db.places, function(count, place){
+		return count + _.map(place.vetoes, function(veto){
+			return veto.who === req.identity;
+		}).length;
+	}, 0);
+
+	if(limit <= vetoes) {
+		res.json(500, {
+			message : 'Veto limit met for today!'
 		});
 	} else {
 		next();
@@ -72,28 +49,24 @@ app.http.before = [
 	voteLimit
 ];
 
-app.router.get('/places', function () {
-	var self = this;
-
-	Place.find({}, function(err, places){
-		self.res.json(places);
-	});
-
+app.router.get('/places', function() {
+	this.res.json(db.places);
 });
 
-app.router.get('/places/vote/:id', function(id){
+app.router.get('/places/veto/:id', function(id) {
 	var self = this;
+	var place = _.find(db.places, function(place){
+		return place.id === parseInt(id);
+	});
+	
+	place.vetoes = place.vetoes || [];
 
-	Place.findById(id, function(err, place){
-		place.votes.push({
-			who: self.req.identity
-		});
-
-		place.save(function(err){
-			self.res.json({
-				id: place.id
-			});
-		});
+	place.vetoes.push({
+		who: this.req.identity
+	});
+	
+	db.save(function(){
+		self.res.json(db.places);
 	});
 });
 

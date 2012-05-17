@@ -15,38 +15,38 @@
         return Place.__super__.constructor.apply(this, arguments);
       }
 
-      Place.prototype.votesKey = 'votesToday';
+      Place.prototype.vetoesKey = 'vetoesToday';
 
       Place.prototype.initialize = function() {
-        if (this.has('votes')) {
-          this.setTodaysVotes();
+        if (this.has('vetoes')) {
+          this.setTodaysVetoes();
         }
-        return this.on('change:votes', this.setTodaysVotes, this);
+        return this.on('change:vetoes', this.setTodaysVetoes, this);
       };
 
-      Place.prototype.idAttribute = '_id';
-
-      Place.prototype.vote = function() {
+      Place.prototype.veto = function() {
         var _this = this;
         return $.ajax({
-          url: '/places/vote/' + this.get('_id'),
+          url: '/places/veto/' + this.get('id'),
           success: function() {
-            return _this.set(_this.votesKey, _this.get(_this.votesKey) + 1);
+            var vetoes;
+            vetoes = _this.get(_this.vetoesKey) || 0;
+            return _this.set(_this.vetoesKey, vetoes + 1);
           }
         });
       };
 
-      Place.prototype.setTodaysVotes = function() {
-        var today, todaysVotes;
+      Place.prototype.setTodaysVetoes = function() {
+        var today, todaysVetoes;
         today = moment().sod().valueOf();
-        todaysVotes = _.reduce(this.get('votes'), function(memo, vote) {
-          if (moment(vote.created).valueOf() > today) {
+        todaysVetoes = _.reduce(this.get('vetoes'), function(memo, veto) {
+          if (moment(veto.created).valueOf() > today) {
             return memo + 1;
           } else {
             return memo;
           }
         }, 0);
-        return this.set(this.votesKey, todaysVotes || (todaysVotes = 0));
+        return this.set(this.vetoesKey, todaysVetoes || (todaysVetoes = 0));
       };
 
       return Place;

@@ -20,11 +20,11 @@
       PlaceItemController.prototype.tagName = 'li';
 
       PlaceItemController.prototype.events = {
-        'click .vote': 'vote'
+        'click .veto': 'veto'
       };
 
       PlaceItemController.prototype.initialize = function() {
-        return this.model.on('change:' + this.model.votesKey, this.render, this);
+        return this.model.on('change:' + this.model.vetoesKey, this.render, this);
       };
 
       PlaceItemController.prototype.render = function() {
@@ -32,8 +32,8 @@
         return this;
       };
 
-      PlaceItemController.prototype.vote = function() {
-        return this.model.vote();
+      PlaceItemController.prototype.veto = function() {
+        return this.model.veto();
       };
 
       return PlaceItemController;

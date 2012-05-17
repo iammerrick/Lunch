@@ -3,7 +3,7 @@
 
   define(['views/View'], function(View) {
     return View({
-      template: "{{name}}\n<a href=\"#\" class=\"vote\">Vote <span class=\"bold\">{{votesToday}}</span></a>"
+      template: "{{name}}\n<a href=\"#\" class=\"veto\">Veto <span class=\"bold\">{{vetoesToday}}</span></a>"
     });
   });
 

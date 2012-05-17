@@ -1,27 +1,26 @@
 define ['models/Model', 'jquery', 'use!underscore', 'moment'], (Model, $, _, moment) ->
   class Place extends Model
 
-    votesKey: 'votesToday'
+    vetoesKey: 'vetoesToday'
 
     initialize: ->
-      @setTodaysVotes() if @has('votes')
-      @on('change:votes', @setTodaysVotes, this)
+      @setTodaysVetoes() if @has('vetoes')
+      @on('change:vetoes', @setTodaysVetoes, this)
 
-    idAttribute: '_id'
-
-    vote: ->
+    veto: ->
       $.ajax(
-        url: '/places/vote/'+@get('_id')
+        url: '/places/veto/'+@get('id')
         success: =>
-          @set @votesKey, @get(@votesKey) + 1
+          vetoes = @get(@vetoesKey) || 0
+          @set @vetoesKey, vetoes + 1
       )
 
-    setTodaysVotes: ->
+    setTodaysVetoes: ->
       today = moment().sod().valueOf()
-      todaysVotes = _.reduce @get('votes'), (memo, vote) ->
-        if moment(vote.created).valueOf() > today
+      todaysVetoes = _.reduce @get('vetoes'), (memo, veto) ->
+        if moment(veto.created).valueOf() > today
           memo + 1
         else
           memo
       , 0
-      @set @votesKey, todaysVotes or= 0
+      @set @vetoesKey, todaysVetoes or= 0

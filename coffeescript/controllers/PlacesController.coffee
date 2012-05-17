@@ -11,17 +11,17 @@ define [
     tagName: 'li'
 
     events:
-      'click .vote' : 'vote'
+      'click .veto' : 'veto'
 
     initialize: ->
-      @model.on 'change:'+@model.votesKey, @render, this
+      @model.on 'change:'+@model.vetoesKey, @render, this
 
     render: () ->
       @html PlaceItemView @model.toJSON()
       this
 
-    vote: ->
-      @model.vote()
+    veto: ->
+      @model.veto()
 
   class PlacesController extends Controller
 
