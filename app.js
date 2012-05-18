@@ -83,3 +83,8 @@ app.router.get('/places/select', function() {
 
 app.start(process.env.PORT || 3000);
 var io = require('socket.io').listen(app.server);
+
+io.configure(function () { 
+	io.set('transports', ['xhr-polling']); 
+	io.set('polling duration', 10); 
+});
