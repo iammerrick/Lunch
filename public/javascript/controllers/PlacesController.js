@@ -4,7 +4,7 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  define(['controllers/Controller', 'collections/PlacesCollection', 'views/PlaceItemView'], function(Controller, PlacesCollection, PlaceItemView) {
+  define(['controllers/Controller', 'collections/PlacesCollection', 'views/PlaceItemView', 'lib/io'], function(Controller, PlacesCollection, PlaceItemView, io) {
     var PlaceItemController, PlacesController;
     PlaceItemController = (function(_super) {
 
@@ -26,7 +26,7 @@
       };
 
       PlaceItemController.prototype.initialize = function() {
-        return this.model.on('change:#{@model.vetoesKey}', this.render);
+        return this.model.on("change:" + this.model.vetoesKey, this.render);
       };
 
       PlaceItemController.prototype.render = function() {
@@ -56,13 +56,18 @@
       PlacesController.prototype.tagName = 'ul';
 
       PlacesController.prototype.initialize = function() {
+        var _this = this;
         this.collection = new PlacesCollection;
         this.collection.on('reset', this.render, this);
-        return this.collection.fetch();
+        this.collection.fetch();
+        return io.on('vote', function() {
+          return _this.collection.fetch();
+        });
       };
 
       PlacesController.prototype.render = function() {
         var _this = this;
+        this.$el.empty();
         this.append('<h2>What are my options?</h2>');
         this.collection.each(function(place) {
           return _this.append(new PlaceItemController({

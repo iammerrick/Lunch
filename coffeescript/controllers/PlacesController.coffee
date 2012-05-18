@@ -2,7 +2,8 @@ define [
   'controllers/Controller'
   'collections/PlacesCollection'
   'views/PlaceItemView'
-], (Controller, PlacesCollection, PlaceItemView) ->
+  'lib/io'
+], (Controller, PlacesCollection, PlaceItemView, io) ->
 
   class PlaceItemController extends Controller
 
@@ -14,7 +15,7 @@ define [
       'click .veto' : 'veto'
 
     initialize: ->
-      @model.on 'change:#{@model.vetoesKey}', @render
+      @model.on "change:#{@model.vetoesKey}", @render
 
     render: =>
       @html PlaceItemView @model.toJSON()
@@ -34,7 +35,11 @@ define [
       @collection.on 'reset', @render, this
       @collection.fetch()
 
+      io.on 'vote', =>
+        @collection.fetch()
+
     render: ->
+      @$el.empty()
       @append '<h2>What are my options?</h2>'
       @collection.each (place) =>
         @append new PlaceItemController(model: place).render()

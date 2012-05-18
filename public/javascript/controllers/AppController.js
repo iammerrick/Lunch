@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  define(['controllers/Controller', 'views/AppView', 'controllers/PlacesController', 'use!ui'], function(Controller, AppView, PlacesController, ui) {
+  define(['controllers/Controller', 'views/AppView', 'controllers/PlacesController', 'lib/io', 'use!ui'], function(Controller, AppView, PlacesController, io, ui) {
     var AppController;
     return AppController = (function(_super) {
 
@@ -22,13 +22,17 @@
       };
 
       AppController.prototype.initialize = function() {
+        var _this = this;
         this.placesController = new PlacesController;
         this.append(AppView());
-        return this.append(this.placesController);
+        this.append(this.placesController);
+        return io.on('select', function(place) {
+          return ui.dialog(place.name).closable().overlay().show();
+        });
       };
 
       AppController.prototype.findLocation = function() {
-        return ui.dialog(this.placesController.findLocation().get('name')).closable().overlay().show();
+        return this.placesController.findLocation();
       };
 
       return AppController;

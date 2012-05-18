@@ -29,9 +29,7 @@
         return $.ajax({
           url: '/places/veto/' + this.get('id'),
           success: function() {
-            var vetoes;
-            vetoes = _this.get(_this.vetoesKey) || 0;
-            return _this.set(_this.vetoesKey, vetoes + 1);
+            return _this.set(_this.vetoesKey, _this.get(_this.vetoesKey) + 1);
           }
         });
       };

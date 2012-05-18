@@ -11,8 +11,7 @@ define ['models/Model', 'jquery', 'use!underscore', 'moment'], (Model, $, _, mom
       $.ajax(
         url: '/places/veto/'+@get('id')
         success: =>
-          vetoes = @get(@vetoesKey) || 0
-          @set @vetoesKey, vetoes + 1
+          @set @vetoesKey, @get(@vetoesKey) + 1
       )
 
     setTodaysVetoes: ->

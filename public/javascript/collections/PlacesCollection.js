@@ -3,7 +3,7 @@
   var __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
-  define(['collections/Collection', 'models/Place', 'moment'], function(Collection, Place, moment) {
+  define(['collections/Collection', 'models/Place', 'jquery', 'moment'], function(Collection, Place, $, moment) {
     var PlacesCollection;
     return PlacesCollection = (function(_super) {
 
@@ -19,25 +19,10 @@
 
       PlacesCollection.prototype.url = '/places';
 
-      PlacesCollection.prototype.comparator = function(compare) {
-        return Math.random();
-      };
-
       PlacesCollection.prototype.select = function() {
-        var i, key, place, selectionPool, today, votes, _i, _ref;
-        today = moment().sod().valueOf();
-        selectionPool = [];
-        _ref = this.models;
-        for (key in _ref) {
-          place = _ref[key];
-          votes = place.get(place.votesKey);
-          if (votes > 0) {
-            for (i = _i = 1; 1 <= votes ? _i <= votes : _i >= votes; i = 1 <= votes ? ++_i : --_i) {
-              selectionPool.push(place.id);
-            }
-          }
-        }
-        return this.get(selectionPool[Math.floor(Math.random() * selectionPool.length)]);
+        return $.ajax({
+          url: '/places/select'
+        });
       };
 
       return PlacesCollection;

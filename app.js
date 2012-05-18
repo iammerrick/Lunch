@@ -4,6 +4,7 @@ var flatiron = require('flatiron'),
 	moment = require('moment'),
 	_ = require('underscore'),
 	Database = require('./lib/db'),
+	select = require('./lib/select'),
     app = flatiron.app;
 
 var db = new Database('./db/default.db');
@@ -22,7 +23,7 @@ var identify = function(req, res, next){
 };
 
 var voteLimit = function(req, res, next) {
-	var limit = 3;
+	var limit = 100;
 	if(! ~req.url.indexOf('veto')) return next();
 
 
@@ -62,13 +63,27 @@ app.router.get('/places/veto/:id', function(id) {
 	place.vetoes = place.vetoes || [];
 
 	place.vetoes.push({
-		who: this.req.identity
+		who: this.req.identity,
+		created: Date.now()
 	});
 	
 	db.save(function(){
+		io.sockets.emit('vote');
 		self.res.json(db.places);
 	});
 });
 
-app.start(process.env.PORT || 3000);
+app.router.get('/places/select', function() {
+	this.res.json({
+		message: 'Thank you, enjoy your lunch!'
+	});
 
+	io.sockets.emit('select', select(db.places));
+});
+
+app.start(process.env.PORT || 3000);
+var io = require('socket.io').listen(app.server);
+
+io.sockets.on('connection', function(socket) {
+	socket.emit('news', {hello: 'world'});
+});
