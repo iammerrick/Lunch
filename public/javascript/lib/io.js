@@ -3,7 +3,7 @@
 
   define(function() {
     var socket;
-    return socket = io.connect('http://localhost');
+    return socket = io.connect('http://falling-river-1771.herokuapp.com/');
   });
 
 }).call(this);
